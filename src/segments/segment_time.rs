@@ -1,6 +1,8 @@
-#[cfg(feature = "chrono")] use chrono::Local;
-#[cfg(feature = "chrono")] use std::fmt::Write;
 use crate::{Powerline, Segment, Shell};
+#[cfg(feature = "chrono")]
+use chrono::Local;
+#[cfg(feature = "chrono")]
+use std::fmt::Write;
 
 pub fn segment_time(p: &mut Powerline, strftime: &str) {
     let (bg, fg) = (p.theme.time_bg, p.theme.time_fg);
@@ -15,9 +17,16 @@ pub fn segment_time(p: &mut Powerline, strftime: &str) {
         }
         return;
     }
-    p.segments.push(Segment::new(bg, fg, match p.shell {
-        Shell::Bare => unreachable!(),
-        Shell::Bash => "\\@",
-        Shell::Zsh  => "%@"
-    }).dont_escape())
+    p.segments.push(
+        Segment::new(
+            bg,
+            fg,
+            match p.shell {
+                Shell::Bare => unreachable!(),
+                Shell::Bash => "\\@",
+                Shell::Zsh => "%@",
+            },
+        )
+        .dont_escape(),
+    )
 }

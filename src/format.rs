@@ -10,7 +10,7 @@ impl fmt::Display for Fg {
             match self.0 {
                 Shell::Bare => write!(f, "\x1b[38;5;{}m", self.1),
                 Shell::Bash => write!(f, "\\[\\e[38;5;{}m\\]", self.1),
-                Shell::Zsh  => write!(f, "%{{\x1b[38;5;{}m%}}", self.1)
+                Shell::Zsh => write!(f, "%{{\x1b[38;5;{}m%}}", self.1),
             }
         }
     }
@@ -25,7 +25,7 @@ impl fmt::Display for Bg {
             match self.0 {
                 Shell::Bare => write!(f, "\x1b[48;5;{}m", self.1),
                 Shell::Bash => write!(f, "\\[\\e[48;5;{}m\\]", self.1),
-                Shell::Zsh  => write!(f, "%{{\x1b[48;5;{}m%}}", self.1)
+                Shell::Zsh => write!(f, "%{{\x1b[48;5;{}m%}}", self.1),
             }
         }
     }
@@ -38,7 +38,7 @@ impl fmt::Display for Reset {
         match self.0 {
             Shell::Bare => write!(f, "\x1b[{}9m", reset),
             Shell::Bash => write!(f, "\\[\\e[{}9m\\]", reset),
-            Shell::Zsh  => write!(f, "%{{\x1b[{}9m%}}", reset)
+            Shell::Zsh => write!(f, "%{{\x1b[{}9m%}}", reset),
         }
     }
 }
@@ -47,7 +47,7 @@ pub fn root(shell: Shell) -> &'static str {
     match shell {
         Shell::Bare => "$",
         Shell::Bash => "\\$",
-        Shell::Zsh  => "%#"
+        Shell::Zsh => "%#",
     }
 }
 pub fn escape(shell: Shell, string: &mut String) {
@@ -59,16 +59,16 @@ pub fn escape(shell: Shell, string: &mut String) {
         match shell {
             Shell::Bash => match c {
                 '\\' => output.push_str("\\\\"),
-                '$'  => output.push_str("\\$"),
-                '"'  => output.push_str("\\\""),
-                c    => output.push(c)
+                '$' => output.push_str("\\$"),
+                '"' => output.push_str("\\\""),
+                c => output.push(c),
             },
             Shell::Zsh => match c {
                 '%' => output.push_str("%%"),
                 ')' => output.push_str("%)"),
-                c   => output.push(c)
+                c => output.push(c),
             },
-            Shell::Bare => unreachable!()
+            Shell::Bare => unreachable!(),
         }
     }
     *string = output;
