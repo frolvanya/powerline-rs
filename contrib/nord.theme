@@ -9,15 +9,20 @@ home_fg = 216,222,233
 path_bg = 59,66,82
 path_fg = 216,222,233
 cwd_fg = 216,222,233
+
 separator_fg = 136,192,208
+component_separator_char = 
+section_separator_char = 
+rtl_component_separator_char = 
+rtl_section_separator_char = 
 
 ro_bg = 191,97,106
 ro_fg = 236,239,244
-ro_char = 
+ro_char = 󰌾
 
 ssh_bg = 208,135,112
 ssh_fg = 236,239,244
-ssh_char = 
+ssh_char = 󰌾
 
 jobs_bg = 67,76,94
 jobs_fg = 59,66,82
@@ -50,9 +55,9 @@ git_staged_fg = 59,66,82
 git_untracked_bg = 180,142,173
 git_untracked_fg = 236,239,244
 
-git_ahead_char = ⬆
-git_behind_char = ⬇
-git_staged_char = ✔
-git_notstaged_char = ✎
-git_untracked_char = +
-git_conflicted_char = *
+git_ahead_char = 
+git_behind_char = 
+git_staged_char = 
+git_notstaged_char = 
+git_untracked_char = 
+git_conflicted_char = 
