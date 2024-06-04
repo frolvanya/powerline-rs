@@ -98,7 +98,7 @@ impl Segment {
     }
     pub fn print(&self, next: Option<&Segment>, shell: Shell, theme: &Theme, first: bool) {
         if first {
-            print!("{}", Fg(shell, self.bg));
+            print!("\n{}", Fg(shell, self.bg));
         }
 
         print!(
