@@ -1,0 +1,58 @@
+username_bg = 46,52,64
+username_fg = 216,222,233
+
+hostname_fg = 216,222,233
+hostname_bg = 59,66,82
+
+home_bg = 59,66,82
+home_fg = 216,222,233
+path_bg = 59,66,82
+path_fg = 216,222,233
+cwd_fg = 216,222,233
+separator_fg = 136,192,208
+
+ro_bg = 191,97,106
+ro_fg = 236,239,244
+ro_char = 
+
+ssh_bg = 208,135,112
+ssh_fg = 236,239,244
+ssh_char = 
+
+jobs_bg = 67,76,94
+jobs_fg = 59,66,82
+
+cmd_passed_bg = 59,66,82
+cmd_passed_fg = 236,239,244
+cmd_failed_bg = 235,203,139
+cmd_failed_fg = 236,239,244
+
+virtual_env_bg = 143,188,187
+virtual_env_fg = 59,66,82
+
+time_bg = 136,192,208
+time_fg = 59,66,82
+
+git_clean_bg = 163,190,140
+git_clean_fg = 59,66,82
+git_dirty_bg = 191,97,106
+git_dirty_fg = 236,239,244
+git_ahead_bg = 136,192,208
+git_ahead_fg = 59,66,82
+git_behind_bg = 46,52,64
+git_behind_fg = 216,222,233
+git_conflicted_bg = 191,97,106
+git_conflicted_fg = 236,239,244
+git_notstaged_bg = 208,135,112
+git_notstaged_fg = 236,239,244
+git_staged_bg = 129,161,193
+git_staged_fg = 59,66,82
+git_untracked_bg = 180,142,173
+git_untracked_fg = 236,239,244
+
+git_ahead_char = ⬆
+git_behind_char = ⬇
+git_staged_char = ✔
+git_notstaged_char = ✎
+git_untracked_char = +
+git_conflicted_char = *
