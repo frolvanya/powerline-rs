@@ -15,7 +15,7 @@ pub fn segment_ps(p: &mut Powerline) {
         write!(path, "{}", pid).unwrap();
         path.push_str("/stat");
 
-        match get_process_tty(&Path::new(&path)) {
+        match get_process_tty(Path::new(&path)) {
             Some(tty) => tty,
             None => return,
         }
@@ -35,7 +35,7 @@ pub fn segment_ps(p: &mut Powerline) {
                 .file_name()
                 .and_then(|name| {
                     name.to_str()
-                        .map(|s| s.chars().all(|c| c >= '0' && c <= '9') && s.parse() != Ok(pid))
+                        .map(|s| s.chars().all(|c| c.is_ascii_digit()) && s.parse() != Ok(pid))
                 })
                 .unwrap_or(false)
             {
@@ -59,7 +59,7 @@ pub fn segment_ps(p: &mut Powerline) {
     }
 }
 pub fn get_process_tty(file: &Path) -> Option<usize> {
-    fs::read_to_string(&file)
+    fs::read_to_string(file)
         .ok()?
         .split_whitespace()
         .nth(PROC_STAT_PID)

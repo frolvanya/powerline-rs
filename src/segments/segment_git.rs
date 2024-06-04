@@ -56,18 +56,14 @@ pub fn segment_git(p: &mut Powerline) {
     let mut local = None;
     let mut upstream = None;
 
-    for branch in branches.unwrap() {
-        if let Ok((branch, _)) = branch {
-            if branch.is_head() {
-                local = branch.get().target();
-                upstream = branch.upstream().ok().and_then(|b| b.get().target());
+    for (branch, _) in branches.unwrap().flatten() {
+        if branch.is_head() {
+            local = branch.get().target();
+            upstream = branch.upstream().ok().and_then(|b| b.get().target());
 
-                if let Ok(name) = branch.name() {
-                    if let Some(name) = name {
-                        branch_name = Some(name.to_string());
-                        break;
-                    }
-                }
+            if let Ok(Some(name)) = branch.name() {
+                branch_name = Some(name.to_string());
+                break;
             }
         }
     }

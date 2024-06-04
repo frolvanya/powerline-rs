@@ -8,7 +8,7 @@ pub fn segment_virtualenv(p: &mut Powerline) {
         .map(|env_path| {
             path::Path::new(&env_path)
                 .file_name()
-                .and_then(|env_name| Some(env_name.to_string_lossy().into_owned()))
+                .map(|env_name| env_name.to_string_lossy().into_owned())
         })
     {
         p.segments.push(Segment::new(

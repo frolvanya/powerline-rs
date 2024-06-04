@@ -104,26 +104,20 @@ pub fn load(file: &str) -> Result<Theme, Box<dyn StdError>> {
         }
         let mut parts = line.splitn(2, '=');
 
-        let variable = parts
-            .next()
-            .map(|inner| inner.trim())
-            .ok_or_else(|| ErrCorrupt)?;
-        let value = parts
-            .next()
-            .map(|inner| inner.trim())
-            .ok_or_else(|| ErrCorrupt)?;
+        let variable = parts.next().map(|inner| inner.trim()).ok_or(ErrCorrupt)?;
+        let value = parts.next().map(|inner| inner.trim()).ok_or(ErrCorrupt)?;
 
         if variable.ends_with("char") {
-            let index = theme_index_char(&mut theme, variable).ok_or_else(|| ErrCorrupt)?;
+            let index = theme_index_char(&mut theme, variable).ok_or(ErrCorrupt)?;
 
             if value.chars().count() == 1 {
                 *index = value.parse()?;
             } else {
                 let codepoint = u32::from_str_radix(value, 16)?;
-                *index = std::char::from_u32(codepoint).ok_or_else(|| ErrCorrupt)?;
+                *index = std::char::from_u32(codepoint).ok_or(ErrCorrupt)?;
             }
         } else {
-            let index = theme_index_rgb(&mut theme, variable).ok_or_else(|| ErrCorrupt)?;
+            let index = theme_index_rgb(&mut theme, variable).ok_or(ErrCorrupt)?;
             let rgb = value
                 .split(',')
                 .map(|color| color.parse())
