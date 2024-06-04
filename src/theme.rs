@@ -2,6 +2,12 @@
 pub struct Theme {
     pub separator_fg: (u8, u8, u8),
 
+    pub component_separator_char: char,
+    pub section_separator_char: char,
+
+    pub rtl_component_separator_char: char,
+    pub rtl_section_separator_char: char,
+
     pub home_bg: (u8, u8, u8),
     pub home_fg: (u8, u8, u8),
     pub path_bg: (u8, u8, u8),
@@ -195,6 +201,12 @@ fn theme_index_rgb<'a>(theme: &'a mut Theme, name: &str) -> Option<&'a mut (u8, 
 
 fn theme_index_char<'a>(theme: &'a mut Theme, name: &str) -> Option<&'a mut char> {
     match name {
+        "component_separator_char" => Some(&mut theme.component_separator_char),
+        "section_separator_char" => Some(&mut theme.section_separator_char),
+
+        "rtl_component_separator_char" => Some(&mut theme.rtl_component_separator_char),
+        "rtl_section_separator_char" => Some(&mut theme.rtl_section_separator_char),
+
         "ssh_char" => Some(&mut theme.ssh_char),
         "ro_char" => Some(&mut theme.ro_char),
 

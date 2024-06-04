@@ -98,7 +98,11 @@ impl Segment {
     }
     pub fn print(&self, next: Option<&Segment>, shell: Shell, theme: &Theme, first: bool) {
         if first {
-            print!("\n{}", Fg(shell, self.bg));
+            print!(
+                "\n{}{}",
+                Fg(shell, self.bg),
+                theme.rtl_section_separator_char
+            );
         }
 
         print!(
@@ -114,17 +118,30 @@ impl Segment {
         }
         match next {
             Some(next) if next.is_conditional() => {}
-            Some(next) if next.bg == self.bg => print!("{}", Fg(shell, theme.separator_fg)),
-            Some(next) if self.bg == (0, 0, 0) => {
-                print!("{}{}", Fg(shell, next.bg), Bg(shell, next.bg))
-            }
-            Some(next) => print!("{}{}", Fg(shell, self.bg), Bg(shell, next.bg)),
+            Some(next) if next.bg == self.bg => print!(
+                "{}{}",
+                Fg(shell, theme.separator_fg),
+                theme.component_separator_char
+            ),
+            Some(next) if self.bg == (0, 0, 0) => print!(
+                "{}{}{}",
+                Fg(shell, next.bg),
+                Bg(shell, next.bg),
+                theme.section_separator_char
+            ),
+            Some(next) => print!(
+                "{}{}{}",
+                Fg(shell, self.bg),
+                Bg(shell, next.bg),
+                theme.section_separator_char
+            ),
             // Last tile resets colors
             None => print!(
-                "{}{}{}",
+                "{}{}{}{}",
                 Fg(shell, self.bg),
                 Reset(shell, false),
-                Reset(shell, true)
+                theme.section_separator_char,
+                Reset(shell, true),
             ),
         }
         print!("{}", self.after);
@@ -135,11 +152,19 @@ impl Segment {
         print!("{}", self.after);
         match next {
             Some(next) if next.is_conditional() => {}
-            Some(next) if next.bg == self.bg => {
-                print!("{}{}", Fg(shell, theme.separator_fg), Bg(shell, self.bg))
-            }
-            Some(next) => print!("{}{}", Fg(shell, self.bg), Bg(shell, next.bg)),
-            None => print!("{}", Fg(shell, self.bg)),
+            Some(next) if next.bg == self.bg => print!(
+                "{}{}{}",
+                Fg(shell, theme.separator_fg),
+                Bg(shell, self.bg),
+                theme.rtl_component_separator_char
+            ),
+            Some(next) => print!(
+                "{}{}{}",
+                Fg(shell, self.bg),
+                Bg(shell, next.bg),
+                theme.rtl_section_separator_char
+            ),
+            None => print!("{}{}", Fg(shell, self.bg), theme.rtl_section_separator_char),
         }
         print!("{}{} {}", Fg(shell, self.fg), Bg(shell, self.bg), self.text);
 
