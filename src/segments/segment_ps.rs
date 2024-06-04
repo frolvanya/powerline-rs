@@ -1,10 +1,5 @@
 use crate::{Powerline, Segment};
-use std::{
-    fmt::Write,
-    fs,
-    os::raw::c_int,
-    path::Path
-};
+use std::{fmt::Write, fs, os::raw::c_int, path::Path};
 
 const PROC_STAT_PID: usize = 6; // 0-based, 7th word
 
@@ -22,7 +17,7 @@ pub fn segment_ps(p: &mut Powerline) {
 
         match get_process_tty(&Path::new(&path)) {
             Some(tty) => tty,
-            None => return
+            None => return,
         }
     };
 
@@ -32,18 +27,18 @@ pub fn segment_ps(p: &mut Powerline) {
         for entry in list {
             let entry = match entry {
                 Ok(entry) => entry,
-                Err(_) => break
+                Err(_) => break,
             };
             let mut path = entry.path();
 
-            if !path.file_name()
-                    .and_then(|name| name
-                        .to_str()
-                        .map(|s| {
-                            s.chars().all(|c| c >= '0' && c <= '9')
-                                && s.parse() != Ok(pid)
-                        }))
-                    .unwrap_or(false) {
+            if !path
+                .file_name()
+                .and_then(|name| {
+                    name.to_str()
+                        .map(|s| s.chars().all(|c| c >= '0' && c <= '9') && s.parse() != Ok(pid))
+                })
+                .unwrap_or(false)
+            {
                 continue;
             }
 
@@ -56,11 +51,17 @@ pub fn segment_ps(p: &mut Powerline) {
     }
 
     if count > 0 {
-        p.segments.push(Segment::new(p.theme.ps_bg, p.theme.ps_fg, count.to_string()));
+        p.segments.push(Segment::new(
+            p.theme.ps_bg,
+            p.theme.ps_fg,
+            count.to_string(),
+        ));
     }
 }
 pub fn get_process_tty(file: &Path) -> Option<usize> {
-    fs::read_to_string(&file).ok()?
-        .split_whitespace().nth(PROC_STAT_PID)
+    fs::read_to_string(&file)
+        .ok()?
+        .split_whitespace()
+        .nth(PROC_STAT_PID)
         .and_then(|n| n.parse().ok())
 }

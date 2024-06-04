@@ -34,9 +34,10 @@ use crate::theme::Theme;
 use crate::Shell;
 use std::borrow::Cow;
 
+#[derive(Debug)]
 pub struct Segment {
-    bg: u8,
-    fg: u8,
+    bg: (u8, u8, u8),
+    fg: (u8, u8, u8),
 
     before: &'static str,
     after: &'static str,
@@ -46,8 +47,9 @@ pub struct Segment {
     escaped: bool,
     text: Cow<'static, str>,
 }
+
 impl Segment {
-    pub fn new<S>(bg: u8, fg: u8, text: S) -> Self
+    pub fn new<S>(bg: (u8, u8, u8), fg: (u8, u8, u8), text: S) -> Self
     where
         S: Into<Cow<'static, str>>,
     {
@@ -98,6 +100,7 @@ impl Segment {
         if first {
             print!("{}", Fg(shell, self.bg));
         }
+
         print!(
             "{}{}{} {}",
             self.before,
@@ -112,7 +115,9 @@ impl Segment {
         match next {
             Some(next) if next.is_conditional() => {}
             Some(next) if next.bg == self.bg => print!("{}", Fg(shell, theme.separator_fg)),
-            Some(next) if self.bg == 0 => print!("{}{}", Fg(shell, next.bg), Bg(shell, next.bg)),
+            Some(next) if self.bg == (0, 0, 0) => {
+                print!("{}{}", Fg(shell, next.bg), Bg(shell, next.bg))
+            }
             Some(next) => print!("{}{}", Fg(shell, self.bg), Bg(shell, next.bg)),
             // Last tile resets colors
             None => print!(
@@ -124,6 +129,7 @@ impl Segment {
         }
         print!("{}", self.after);
     }
+
     pub fn print_rtl(&self, next: Option<&Segment>, shell: Shell, theme: &Theme) {
         // Here, next is going leftwards - see how this func is called in main.rs .
         print!("{}", self.after);

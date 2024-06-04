@@ -1,5 +1,5 @@
-use std::os::raw::{c_char, c_int};
 use crate::{Powerline, Segment};
+use std::os::raw::{c_char, c_int};
 
 const W_OK: c_int = 2;
 
@@ -9,6 +9,10 @@ extern "C" {
 
 pub fn segment_perms(p: &mut Powerline) {
     if unsafe { access(".\0".as_ptr() as *const c_char, W_OK) } != 0 {
-        p.segments.push(Segment::new(p.theme.ro_bg, p.theme.ro_fg, p.theme.ro_char.to_string()));
+        p.segments.push(Segment::new(
+            p.theme.ro_bg,
+            p.theme.ro_fg,
+            p.theme.ro_char.to_string(),
+        ));
     }
 }

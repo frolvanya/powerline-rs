@@ -1,9 +1,9 @@
+use crate::{Powerline, Segment, Shell};
 use std::{
     borrow::Cow,
     os::raw::{c_char, c_int},
-    str
+    str,
 };
-use crate::{Powerline, Segment, Shell};
 
 extern "C" {
     fn gethostname(buf: *mut c_char, len: usize) -> c_int;
@@ -27,9 +27,16 @@ pub fn segment_host(p: &mut Powerline) {
         return;
     }
 
-    p.segments.push(Segment::new(bg, fg, match p.shell {
-        Shell::Bare => unreachable!(),
-        Shell::Bash => "\\h",
-        Shell::Zsh  => "%m"
-    }).dont_escape());
+    p.segments.push(
+        Segment::new(
+            bg,
+            fg,
+            match p.shell {
+                Shell::Bare => unreachable!(),
+                Shell::Bash => "\\h",
+                Shell::Zsh => "%m",
+            },
+        )
+        .dont_escape(),
+    );
 }

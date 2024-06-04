@@ -53,10 +53,10 @@ fn main() {
             theme
         } else {
             eprintln!("Invalid theme.");
-            theme::DEFAULT
+            theme::Theme::default()
         }
     } else {
-        theme::DEFAULT
+        theme::Theme::default()
     };
 
     #[cfg(feature = "flame")]
